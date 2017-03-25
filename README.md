@@ -1,4 +1,4 @@
-# iavascript-vipaccess
+# javascript-vipaccess
 JavaScript implementation of vipaccess
 
 
