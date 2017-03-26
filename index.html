@@ -3452,7 +3452,7 @@ $(function () {
             
     $( "#showQrImageButton" ).on( "click", function() {
         var url = 'https://chart.googleapis.com/chart?chs=200x200&cht=qr&chl=200x200&chld=M|0&cht=qr&chl=';
-        url += encodeURIComponent(otpauth);
+        url += encodeURIComponent(decodeURIComponent(otpauth));
         $('#qrImg').attr('src', url);        
     });
 });
