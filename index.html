@@ -3381,9 +3381,9 @@ function parse(xml) {
 // otpauth://totp/VIP%20Access:VSMT69744298?issuer=Symantec&secret=SZLPRVBVPAZ2LD3HHCGYRAU5ZOBDNTRB
 // function getOtpUri(String id, secretBase32) 
 function getOtpUri(id, secretBase32) { 
-    return  "otpauth://" + u(OTP_TYPE) + "/" + u(APP) + "%3A" + u(id) + 
-            "%3Fissuer%3D" + u(DIST_CHANNEL) + 
-            "%26secret%3D" + secretBase32 + "%26" 
+    return  "otpauth://" + u(OTP_TYPE) + "/" + u(APP) + ":" + u(id) + 
+            "?issuer=" + u(DIST_CHANNEL) + 
+            "&secret=" + secretBase32 + "&" 
 }   
 
 function getHmac(time, secretHex) {
@@ -3452,7 +3452,7 @@ $(function () {
             
     $( "#showQrImageButton" ).on( "click", function() {
         var url = 'https://chart.googleapis.com/chart?chs=200x200&cht=qr&chl=200x200&chld=M|0&cht=qr&chl=';
-        url += otpauth
+        url += encodeURIComponent(otpauth);
         $('#qrImg').attr('src', url);        
     });
 });
