@@ -95,6 +95,8 @@ To Login at E*Trade with Two Factor Auth:
     <li>https://www.yubico.com/products/yubikey-hardware/yubikey-neo/</li>                
     <li>https://us.etrade.com/security-center</li>                
     <li>https://github.com/cyrozap/python-vipaccess/blob/master/vipaccess/utils.py</li>                
+    <li>http://stackoverflow.com/questions/3102819/disable-same-origin-policy-in-chrome</li>
+    <li>https://github.com/systemsplanet/java-vipaccess</li>
 </ul>
 
 
@@ -3432,6 +3434,9 @@ $(function () {
     var xmlReq  = getRequestXml(MODEL_MOBILE);
     log(xmlReq);   
     postSymantec(xmlReq, function(xmlResp, status, xhr){
+    console.log(xmlReq);    
+    xmlResp='<?xml version="1.0" encoding="UTF-8"?><GetSharedSecretResponse RequestId="1495421116938" Version="2.0" xmlns="http://www.verisign.com/2006/08/vipservice">  <Status>    <ReasonCode>0000</ReasonCode>    <StatusMessage>Success</StatusMessage>  </Status>  <SharedSecretDeliveryMethod>HTTPS</SharedSecretDeliveryMethod>  <SecretContainer Version="1.0">    <EncryptionMethod>      <PBESalt>mZBryPmZZ+b0g+F5PjcJSarJ7qM=</PBESalt>      <PBEIterationCount>50</PBEIterationCount>      <IV>sjiVxQCGQxsoodO/4IGv0g==</IV>    </EncryptionMethod>    <Device>      <Secret type="HOTP" Id="VSMT79636916">        <Issuer>OU = ID Protection Center, O = Symantec</Issuer>        <Usage otp="true">          <AI type="HMAC-SHA1-TRUNC-6DIGITS"/>          <TimeStep>30</TimeStep>          <Time>0</Time>          <ClockDrift>4</ClockDrift>        </Usage>        <FriendlyName>OU = ID Protection Center, O = Symantec</FriendlyName>        <Data>          <Cipher>RBFwp9XRoEGoGpq9GEu31IxR5ORZK+6j0H7masppies=</Cipher>          <Digest algorithm="HMAC-SHA1">Im8Je4AG3u9iJnGDj2kjVG/ejgI=</Digest>        </Data>        <Expiry>2020-05-21T02:45:07.241Z</Expiry>      </Secret>    </Device>  </SecretContainer>  <UTCTimestamp>1495421107</UTCTimestamp></GetSharedSecretResponse>';       
+    console.log("xmlReq:[" + xmlReq + "]");    
         var token = parse(xmlResp);
         log("Token:                      " + JSON.stringify(token));
         log("Credential expiration:      " + token.expiry);
