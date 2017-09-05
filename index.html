@@ -24,6 +24,55 @@ pre {
 #otpbar {
     background-color:green;
 }
+
+table.blueTable {
+  border: 1px solid #1C6EA4;
+  background-color: #EEEEEE;
+  width: 100%;
+  text-align: left;
+  border-collapse: collapse;
+}
+table.blueTable td, table.blueTable th {
+  border: 1px solid #AAAAAA;
+  padding: 3px 2px;
+}
+table.blueTable tbody td {
+  font-size: 13px;
+}
+table.blueTable tr:nth-child(even) {
+  background: #D0E4F5;
+}
+table.blueTable thead {
+  background: #1C6EA4;
+  background: -moz-linear-gradient(top, #5592bb 0%, #327cad 66%, #1C6EA4 100%);
+  background: -webkit-linear-gradient(top, #5592bb 0%, #327cad 66%, #1C6EA4 100%);
+  background: linear-gradient(to bottom, #5592bb 0%, #327cad 66%, #1C6EA4 100%);
+  border-bottom: 2px solid #444444;
+}
+table.blueTable thead th {
+  font-size: 15px;
+  font-weight: bold;
+  color: #FFFFFF;
+  border-left: 2px solid #D0E4F5;
+}
+table.blueTable thead th:first-child {
+  border-left: none;
+}
+.tstPass {
+    color: green;
+    min-width:60px;
+}
+.tstFail{
+    color: red;
+    min-width:60px;
+}
+.tstMsg{
+    min-width:150px;
+}
+.tstNote{
+}
+
+
 </style>
 </head>
 <body>
@@ -99,6 +148,7 @@ To Login at E*Trade with Two Factor Auth:
     <li>https://github.com/systemsplanet/java-vipaccess</li>
 </ul>
 
+<button id="runTests">Run Tests</button>
 
 <script type="text/javascript">
 /*! jQuery v2.2.4 | (c) jQuery Foundation | jquery.org/license */
@@ -2250,6 +2300,25 @@ var SUPPORTED_ALGS = 8 | 4 | 2 | 1;
 // https://raw.githubusercontent.com/speakeasyjs/base32.js/master/dist/base32.min.js
 this.base32=function(t){function a(h){if(r[h])return r[h].exports;var i=r[h]={exports:{},id:h,loaded:!1};return t[h].call(i.exports,i,i.exports,a),i.loaded=!0,i.exports}var r={};return a.m=t,a.c=r,a.p="",a(0)}([function(t,a){"use strict";function r(t){if(this.buf=[],this.shift=8,this.carry=0,t){switch(t.type){case"rfc4648":this.charmap=a.rfc4648.charmap;break;case"crockford":this.charmap=a.crockford.charmap;break;case"base32hex":this.charmap=a.base32hex.charmap;break;default:throw new Error("invalid type")}t.charmap&&(this.charmap=t.charmap)}}function h(t){if(this.buf="",this.shift=3,this.carry=0,t){switch(t.type){case"rfc4648":this.alphabet=a.rfc4648.alphabet;break;case"crockford":this.alphabet=a.crockford.alphabet;break;case"base32hex":this.alphabet=a.base32hex.alphabet;break;default:throw new Error("invalid type")}t.alphabet?this.alphabet=t.alphabet:t.lc&&(this.alphabet=this.alphabet.toLowerCase())}}var i=function(t,a){return a||(a={}),t.split("").forEach(function(t,r){t in a||(a[t]=r)}),a},e={alphabet:"ABCDEFGHIJKLMNOPQRSTUVWXYZ234567",charmap:{0:14,1:8}};e.charmap=i(e.alphabet,e.charmap);var s={alphabet:"0123456789ABCDEFGHJKMNPQRSTVWXYZ",charmap:{O:0,I:1,L:1}};s.charmap=i(s.alphabet,s.charmap);var c={alphabet:"0123456789ABCDEFGHIJKLMNOPQRSTUV",charmap:{}};c.charmap=i(c.alphabet,c.charmap),r.prototype.charmap=e.charmap,r.prototype.write=function(t){var a=this.charmap,r=this.buf,h=this.shift,i=this.carry;return t.toUpperCase().split("").forEach(function(t){if("="!=t){var e=255&a[t];h-=5,h>0?i|=e<<h:0>h?(r.push(i|e>>-h),h+=8,i=e<<h&255):(r.push(i|e),h=8,i=0)}}),this.shift=h,this.carry=i,this},r.prototype.finalize=function(t){return t&&this.write(t),8!==this.shift&&0!==this.carry&&(this.buf.push(this.carry),this.shift=8,this.carry=0),this.buf},h.prototype.alphabet=e.alphabet,h.prototype.write=function(t){var a,r,h,i=this.shift,e=this.carry;for(h=0;h<t.length;h++)r=t[h],a=e|r>>i,this.buf+=this.alphabet[31&a],i>5&&(i-=5,a=r>>i,this.buf+=this.alphabet[31&a]),i=5-i,e=r<<i,i=8-i;return this.shift=i,this.carry=e,this},h.prototype.finalize=function(t){return t&&this.write(t),3!==this.shift&&(this.buf+=this.alphabet[31&this.carry],this.shift=3,this.carry=0),this.buf},a.encode=function(t,a){return new h(a).finalize(t)},a.decode=function(t,a){return new r(a).finalize(t)},a.Decoder=r,a.Encoder=h,a.charmap=i,a.crockford=s,a.rfc4648=e,a.base32hex=c}]);
 
+//http://blog.tinisles.com/2011/10/google-authenticator-one-time-password-algorithm-in-javascript/
+    function base32tohex(base32) {
+        var base32chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ234567";
+        var bits = "";
+        var hex = "";
+
+        for (var i = 0; i < base32.length; i++) {
+            var val = base32chars.indexOf(base32.charAt(i).toUpperCase());
+            bits += leftpad(val.toString(2), 5, '0');
+        }
+
+        for (var i = 0; i+4 <= bits.length; i+=4) {
+            var chunk = bits.substr(i, 4);
+            hex = hex + parseInt(chunk, 2).toString(16) ;
+        }
+        return hex;
+
+    }
+
 
 ///////////////////////////////////////////////////////////////////////////////
 //aes-js src="https://raw.githubusercontent.com/ricmoo/aes-js/master/index.js"
@@ -2994,7 +3063,7 @@ this.base32=function(t){function a(h){if(r[h])return r[h].exports;var i=r[h]={ex
     // Exporting
 
 
-    // The block cipher
+    // The block cipher aesjs.padding.pkcs7.strip
     var aesjs = {
         AES: AES,
         Counter: Counter,
@@ -3077,18 +3146,80 @@ function leftpad(str, len, pad) {
 }
 
 
+function toUTF8Array(str) {
+    var utf8 = [];
+    for (var i=0; i < str.length; i++) {
+        var charcode = str.charCodeAt(i);
+        if (charcode < 0x80) utf8.push(charcode);
+        else if (charcode < 0x800) {
+            utf8.push(0xc0 | (charcode >> 6), 
+                      0x80 | (charcode & 0x3f));
+        }
+        else if (charcode < 0xd800 || charcode >= 0xe000) {
+            utf8.push(0xe0 | (charcode >> 12), 
+                      0x80 | ((charcode>>6) & 0x3f), 
+                      0x80 | (charcode & 0x3f));
+        }
+        // surrogate pair
+        else {
+            i++;
+            // UTF-16 encodes 0x10000-0x10FFFF by
+            // subtracting 0x10000 and splitting the
+            // 20 bits of 0x0-0xFFFFF into two halves
+            charcode = 0x10000 + (((charcode & 0x3ff)<<10)
+                      | (str.charCodeAt(i) & 0x3ff));
+            utf8.push(0xf0 | (charcode >>18), 
+                      0x80 | ((charcode>>12) & 0x3f), 
+                      0x80 | ((charcode>>6) & 0x3f), 
+                      0x80 | (charcode & 0x3f));
+        }
+    }
+    return utf8;
+}
+
+// https://jsfiddle.net/gabrieleromanato/qAGHT/
+var _utf8_decode = function(utftext) {
+    var string = "";
+    var i = 0;
+    var c = c1 = c2 = 0;
+    while (i < utftext.length) {
+        c = utftext.charCodeAt(i);
+        if (c < 128) {
+            string += String.fromCharCode(c);
+            i++;
+        }
+        else if ((c > 191) && (c < 224)) {
+            c2 = utftext.charCodeAt(i + 1);
+            string += String.fromCharCode(((c & 31) << 6) | (c2 & 63));
+            i += 2;
+        }
+        else {
+            c2 = utftext.charCodeAt(i + 1);
+            c3 = utftext.charCodeAt(i + 2);
+            string += String.fromCharCode(((c & 15) << 12) | ((c2 & 63) << 6) | (c3 & 63));
+            i += 3;
+        }
+    }
+    return string;
+};
 
 ///////////////////////////////////////////////////////////////////////////////
 // Start javascript-vipaccess code 
 ///////////////////////////////////////////////////////////////////////////////
+var console$ = $("#console");
+function logHtml(msg)           {  console$.append("<pre>"+msg+"</pre>\n\n")}
+function logTest(msg)           {  $(msg).insertAfter(console$)}
+function log(msg)               {  console$.text(console$.text() + msg + "\n")  }
+function logClear()             {  console$.text("")                            }
+
 function getSeconds()           {  return Math.round(new Date().getTime() / 1000.0)             } // Seconds Since Epoc
 function getHexTime(seconds)    {  return leftpad(dec2hex(Math.floor(seconds / 30)), 16, '0')   } 
 function u(s)                   {  return encodeURIComponent(s)                                 }
 
 // arrayToBase32([1, 2, 3, 4])  returns "04106173" 
-function arrayToBase32(bytes)   {  return new base32.Encoder({ type: "crockford", lc: true }).write(bytes).finalize() }
+function arrayToBase32(bytes)   {  return new base32.Encoder({ type: "rfc4648", lc: true }).write(bytes).finalize().toUpperCase() }
 // base32ToArray("04106173")    returns [1, 2, 3, 4]
-function base32ToArray(base32)  {  return new base32.Decoder({ type: "crockford" }).write(str).finalize() }
+function base32ToArray(b32)     {  return new base32.Decoder({ type: "rfc4648" }).write(b32).finalize() }
 
 function arrayToHex(bytes)      {  return aesjs.utils.hex.fromBytes(bytes)  }
 function hexToArray(hex)        {  return aesjs.utils.hex.toBytes(hex)      }
@@ -3100,19 +3231,37 @@ function padArray(bytes)        {  return aesjs.padding.pkcs7.pad(bytes)    }
 function unpadArray(bytes)      {  return aesjs.padding.pkcs7.strip(bytes)  }
 
 function base64ToByteChars(b64) {  return atob(b64)                         }
-function base64ToArray(b64)     {  
-    var byteChars = atob(b64);
-    var byteNumbers = new Array(byteChars.length);
-    var len = byteChars.length;
-    for (var i = 0; i < len; i++) {
-        byteNumbers[i] = byteChars.charCodeAt(i);
-    }
-    return byteNumbers;
+function base64ToArray(input)   {
+  var utf8 = atob(input);  
+  var rawLength = utf8.length;
+  var array = new Uint8Array(new ArrayBuffer(rawLength)); //Uint8Array Int8Array
+  for(i = 0; i < rawLength; i++) {
+    array[i] = utf8.charCodeAt(i);
+  }
+  return array;
+}
+
+function signedToUnsigned(signed)   {
+  var len = signed.length;
+  var unsigned = new Uint8Array(new ArrayBuffer(len)); 
+  for(i = 0; i < len; i++) {
+    unsigned[i] = signed[i];
+  }
+  return unsigned;
+}
+
+function unsignedToSigned(unsigned)   {
+  var len = unsigned.length;
+  var signed = new Int8Array(new ArrayBuffer(len)); 
+  for(i = 0; i < len; i++) {
+    signed[i] = unsigned[i];
+  }
+  return signed;
 }
 
 var DIST_CHANNEL     = "Symantec";
 var OTP_TYPE         = "totp";
-var APP              = "VIP Access";
+var APP              = "VIP_Access";
 var PROVISION_HOST   = "services.vip.symantec.com";
 var PROVISION_PATH   = "prov";
 var TEST_HOST        = "idprotect.vip.symantec.com";
@@ -3145,24 +3294,13 @@ function hash(key, data) {
     return shaObj.getHMAC("HEX");
 }
 
-var console$ = $("#console");
-console$.text("");
-function log(msg){
-   console$.text(console$.text() + msg + "\n")
-}
-
 // AES decrypt the One-time-password 128-bit Key using the hardcoded AES key cipher-block chaining mode
 // aesDecrypt(128BitKeyArray, 16ByteInitVectorArray, [1,2,3,4,...] ) return decrypted array
 function aesDecrypt(keyArray, ivArray, dataArray) {
-    log("aesDecrypt    key:[" + arrayToHex(keyArray)  + "]");
-    log("aesDecrypt     iv:[" + arrayToHex(ivArray)   + "]");
-    log("aesDecrypt   data:[" + arrayToHex(dataArray) + "]");   
     var aesCbc = new aesjs.ModeOfOperation.cbc(keyArray, ivArray);
     var decryptedArray = aesCbc.decrypt(dataArray);
-    log("aesDecrypt result:[" + arrayToHex(decryptedArray) + "]"); 
-    //var padLen = decryptedArray[decryptedArray.length - 1];    
-    //decryptedArray = padLen <= 16 ? unpadArray(decryptedArray): decryptedArray; 
-    //log("aesDecrypt  unpad:[" + arrayToHex(decryptedArray) + "]"); 
+    var padLen = decryptedArray[decryptedArray.length - 1];    
+    decryptedArray = padLen <= 16 ? unpadArray(decryptedArray): decryptedArray; 
     return decryptedArray;
 }
 
@@ -3383,9 +3521,7 @@ function parse(xml) {
 // otpauth://totp/VIP%20Access:VSMT69744298?issuer=Symantec&secret=SZLPRVBVPAZ2LD3HHCGYRAU5ZOBDNTRB
 // function getOtpUri(String id, secretBase32) 
 function getOtpUri(id, secretBase32) { 
-    return  "otpauth://" + u(OTP_TYPE) + "/" + u(APP) + ":" + u(id) + 
-            "?issuer=" + u(DIST_CHANNEL) + 
-            "&secret=" + secretBase32 + "&" 
+    return  "otpauth://" + OTP_TYPE + "/" + APP + ":" + id + "?issuer=" + DIST_CHANNEL + u("&secret=" + secretBase32 + "&"); 
 }   
 
 function getHmac(time, secretHex) {
@@ -3429,40 +3565,267 @@ function setSecret(secretHex){
     }, 1000);
 }
 
-$(function () {
-    var otpauth 
-    var xmlReq  = getRequestXml(MODEL_MOBILE);
-    log(xmlReq);   
-    postSymantec(xmlReq, function(xmlResp, status, xhr){
-    console.log(xmlReq);    
-    xmlResp='<?xml version="1.0" encoding="UTF-8"?><GetSharedSecretResponse RequestId="1495421116938" Version="2.0" xmlns="http://www.verisign.com/2006/08/vipservice">  <Status>    <ReasonCode>0000</ReasonCode>    <StatusMessage>Success</StatusMessage>  </Status>  <SharedSecretDeliveryMethod>HTTPS</SharedSecretDeliveryMethod>  <SecretContainer Version="1.0">    <EncryptionMethod>      <PBESalt>mZBryPmZZ+b0g+F5PjcJSarJ7qM=</PBESalt>      <PBEIterationCount>50</PBEIterationCount>      <IV>sjiVxQCGQxsoodO/4IGv0g==</IV>    </EncryptionMethod>    <Device>      <Secret type="HOTP" Id="VSMT79636916">        <Issuer>OU = ID Protection Center, O = Symantec</Issuer>        <Usage otp="true">          <AI type="HMAC-SHA1-TRUNC-6DIGITS"/>          <TimeStep>30</TimeStep>          <Time>0</Time>          <ClockDrift>4</ClockDrift>        </Usage>        <FriendlyName>OU = ID Protection Center, O = Symantec</FriendlyName>        <Data>          <Cipher>RBFwp9XRoEGoGpq9GEu31IxR5ORZK+6j0H7masppies=</Cipher>          <Digest algorithm="HMAC-SHA1">Im8Je4AG3u9iJnGDj2kjVG/ejgI=</Digest>        </Data>        <Expiry>2020-05-21T02:45:07.241Z</Expiry>      </Secret>    </Device>  </SecretContainer>  <UTCTimestamp>1495421107</UTCTimestamp></GetSharedSecretResponse>';       
-    console.log("xmlReq:[" + xmlReq + "]");    
-        var token = parse(xmlResp);
-        log("Token:                      " + JSON.stringify(token));
-        log("Credential expiration:      " + token.expiry);
-        $('#credentialId').val(token.id)               
-        var secretArray = aesDecrypt(AES_KEY_ARRAY, token.iv, token.cipher); 
-        var secretBase32 = arrayToBase32(secretArray)
-        otpauth = getOtpUri(token.id, secretBase32); // otpauth://totp/user@host.com%3Fsecret%3D' + $('#secret').val()        
-        $('#qrUrl').text(otpauth);        
-        var secretHex = arrayToHex(secretArray);
-        $('#secretHex').text(secretHex);
-        $('#secretHexLength').text((secretHex.length * 4) + ' bits'); 
-        setSecret(secretHex);                
-        //checkCredential(token.id, secretArray, function (data, status, xhr){
+function syntaxHighlight(json) {
+    if (typeof json != 'string') {
+         json = JSON.stringify(json, undefined, 2);
+    }
+    json = json.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    return json.replace(/("(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\\"])*"(\s*:)?|\b(true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?)/g, function (match) {
+        var cls = 'number';
+        if (/^"/.test(match)) {
+            if (/:$/.test(match)) {
+                cls = 'key';
+            } else {
+                cls = 'string';
+            }
+        } else if (/true|false/.test(match)) {
+            cls = 'boolean';
+        } else if (/null/.test(match)) {
+            cls = 'null';
+        }
+        return '<span class="' + cls + '">' + match + '</span>';
+    });
+}
+
+$(function () { 
+    function transact(xmlReq, xmlResp) {
+        var ctx = {}
+        log("xmlRequest:\n" + xmlReq  + "\n\n");    
+        log("xmlReply:\n"   + xmlResp + "\n\n");    
+        ctx.token = parse(xmlResp);
+        logHtml("Token: " + syntaxHighlight(ctx.token));
+        $('#credentialId').val(ctx.token.id)               
+        ctx.secretArray = aesDecrypt(AES_KEY_ARRAY, ctx.token.iv, ctx.token.cipher); 
+        //ctx.secretArray = unsignedToSigned(ctx.secretArray);
+        ctx.secretBase32 = arrayToBase32(ctx.secretArray);        
+        ctx.otpauth = getOtpUri(ctx.token.id, ctx.secretBase32); // otpauth://totp/user@host.com%3Fsecret%3D' + $('#secret').val()        
+        $('#qrUrl').text(ctx.otpauth);        
+        ctx.secretHex = arrayToHex(ctx.secretArray);
+        $('#secretHex').text(ctx.secretHex);
+        $('#secretHexLength').text((ctx.secretHex.length * 4) + ' bits'); 
+        setSecret(ctx.secretHex);                
+        //Symantech has shutdown this webservice for testing your auth code
+        //checkCredential(ctx.token.id, ctx.secretArray, function (data, status, xhr){
         //    var msg = "Your credential is functioning properly"        
         //    data.indexOf(msg) != -1 ? log(msg) : log("ERROR: Credential is NOT valid");
         //});      
-    });
-            
+        return ctx;
+    }
+    function logTestLine(result, msg, note) {
+      var pf =  result ? "Pass" : "Fail";
+       $("table.blueTable tbody").append("<tr><td class='tst" + pf + "'>" + pf + "</td><td class='tstMsg'>" + msg + "</td><td class='tstNote'>" + note + "</td></tr>" )
+    }
+    function assertEquals(expect, found, msg) {
+        var result = expect === found;
+        logTestLine(result, msg, result ? " " + found : " Expected:["+expect+"] found:["+found+"]" )
+    }
+    function assertEqualsUArray(expect, found, msg) {
+        expect = signedToUnsigned(expect);
+        var result = expect.length == found.length;
+        var i=0;
+        if (result) {
+            for (i=0;i<expect.length;i++) {
+                result = expect[i]===found[i];
+                if (!result) break;
+            }
+        }
+        logTestLine(result, msg, result ? found : " offset:" + i + " expected:["+expect[i]+"] found:["+found[i]+"]" )
+    }
+    
+    /* Test based on working Java vipaccess: 
+        $java-vipaccess>call install.cmd
+        01:36:01.169 INFO  com.systemsplanet.vipaccess.cmd.CmdConfig          handleArg       debug enabled from commandline
+        01:36:01.170 INFO  com.systemsplanet.vipaccess.cmd.CmdConfig          handleArg       mode:[VSMT]
+        01:36:01.170 INFO  com.systemsplanet.vipaccess.cmd.CmdConfig          handleArg       proxyHost:[localhost]
+        01:36:01.170 INFO  com.systemsplanet.vipaccess.cmd.CmdConfig          handleArg       proxyPort:[8888]
+        01:36:01.171 INFO  com.systemsplanet.vipaccess.VipAccessMain          main            arguments:[-debug false -silent false -mode mobile -proxyHost localhost -proxyPort 8888] isSilent:false isDebug:false mode:VSMT
+        01:36:01.369 INFO  com.systemsplanet.vipaccess.VipAccessMain          main            request: <?xml version="1.0" encoding="UTF-8" ?>
+        <GetSharedSecret Id="1504589761172" Version="2.0" xmlns="http://www.verisign.com/2006/08/vipservice" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+        <TokenModel>VSMT</TokenModel>
+        <ActivationCode></ActivationCode>
+        <OtpAlgorithm type="HMAC-SHA1-TRUNC-6DIGITS"/>
+        <SharedSecretDeliveryMethod>HTTPS</SharedSecretDeliveryMethod>
+        <DeviceId>
+        <Manufacturer>Apple Inc.</Manufacturer>
+        <SerialNo>N0PE6R4SE30Z</SerialNo>
+        <Model>MacBookPro7,1</Model>
+        </DeviceId>
+        <Extension extVersion="auth" xsi:type="vip:ProvisionInfoType" xmlns:vip="http://www.verisign.com/2006/08/vipservice">
+        <AppHandle>iMac010200</AppHandle>
+        <ClientIDType>BOARDID</ClientIDType>
+        <ClientID>Mac-6BA2E8063A76F3E8</ClientID>
+        <DistChannel>Symantec</DistChannel>
+        <ClientInfo>
+        <os>MacBookPro8,1</os>
+        <platform>iMac</platform>
+        </ClientInfo>
+        <ClientTimestamp>1504589761172</ClientTimestamp>
+        <Data>BI3CTvBxvgdNNalfH9og50WMr6aTPw8LliBis3MpEXI=</Data>
+        </Extension>
+        </GetSharedSecret>
+
+        01:36:02.915 INFO  com.systemsplanet.vipaccess.http.VipHttp           post            Post response: 200
+        01:36:02.915 INFO  com.systemsplanet.vipaccess.http.VipHttp           post               <?xml version="1.0" encoding="UTF-8"?>
+        01:36:02.915 INFO  com.systemsplanet.vipaccess.http.VipHttp           post               <GetSharedSecretResponse RequestId="1504589761172" Version="2.0" xmlns="http://www.verisign.com/2006/08/vipservice">
+        01:36:02.915 INFO  com.systemsplanet.vipaccess.http.VipHttp           post                 <Status>
+        01:36:02.915 INFO  com.systemsplanet.vipaccess.http.VipHttp           post                   <ReasonCode>0000</ReasonCode>
+        01:36:02.915 INFO  com.systemsplanet.vipaccess.http.VipHttp           post                   <StatusMessage>Success</StatusMessage>
+        01:36:02.915 INFO  com.systemsplanet.vipaccess.http.VipHttp           post                 </Status>
+        01:36:02.915 INFO  com.systemsplanet.vipaccess.http.VipHttp           post                 <SharedSecretDeliveryMethod>HTTPS</SharedSecretDeliveryMethod>
+        01:36:02.915 INFO  com.systemsplanet.vipaccess.http.VipHttp           post                 <SecretContainer Version="1.0">
+        01:36:02.915 INFO  com.systemsplanet.vipaccess.http.VipHttp           post                   <EncryptionMethod>
+        01:36:02.915 INFO  com.systemsplanet.vipaccess.http.VipHttp           post                     <PBESalt>gLxBi4UUrL0GE3ZHe2rScXLNTCk=</PBESalt>
+        01:36:02.915 INFO  com.systemsplanet.vipaccess.http.VipHttp           post                     <PBEIterationCount>50</PBEIterationCount>
+        01:36:02.915 INFO  com.systemsplanet.vipaccess.http.VipHttp           post                     <IV>DRyxEdYMhFFeFwQ/R3HHkw==</IV>
+        01:36:02.915 INFO  com.systemsplanet.vipaccess.http.VipHttp           post                   </EncryptionMethod>
+        01:36:02.915 INFO  com.systemsplanet.vipaccess.http.VipHttp           post                   <Device>
+        01:36:02.915 INFO  com.systemsplanet.vipaccess.http.VipHttp           post                     <Secret type="HOTP" Id="VSMT31979379">
+        01:36:02.915 INFO  com.systemsplanet.vipaccess.http.VipHttp           post                       <Issuer>OU = ID Protection Center, O = Symantec</Issuer>
+        01:36:02.915 INFO  com.systemsplanet.vipaccess.http.VipHttp           post                       <Usage otp="true">
+        01:36:02.915 INFO  com.systemsplanet.vipaccess.http.VipHttp           post                         <AI type="HMAC-SHA1-TRUNC-6DIGITS"/>
+        01:36:02.915 INFO  com.systemsplanet.vipaccess.http.VipHttp           post                         <TimeStep>30</TimeStep>
+        01:36:02.931 INFO  com.systemsplanet.vipaccess.http.VipHttp           post                         <Time>0</Time>
+        01:36:02.931 INFO  com.systemsplanet.vipaccess.http.VipHttp           post                         <ClockDrift>4</ClockDrift>
+        01:36:02.931 INFO  com.systemsplanet.vipaccess.http.VipHttp           post                       </Usage>
+        01:36:02.931 INFO  com.systemsplanet.vipaccess.http.VipHttp           post                       <FriendlyName>OU = ID Protection Center, O = Symantec</FriendlyName>
+        01:36:02.931 INFO  com.systemsplanet.vipaccess.http.VipHttp           post                       <Data>
+        01:36:02.931 INFO  com.systemsplanet.vipaccess.http.VipHttp           post                         <Cipher>/BMtX7pJbC06tJCxAx8Ey9Y7uIwjLIRJMFx3bB4CGnY=</Cipher>
+        01:36:02.931 INFO  com.systemsplanet.vipaccess.http.VipHttp           post                         <Digest algorithm="HMAC-SHA1">MCTCp2UbUngkOiWa9fiJaeq33ck=</Digest>
+        01:36:02.931 INFO  com.systemsplanet.vipaccess.http.VipHttp           post                       </Data>
+        01:36:02.931 INFO  com.systemsplanet.vipaccess.http.VipHttp           post                       <Expiry>2020-09-04T05:35:57.005Z</Expiry>
+        01:36:02.931 INFO  com.systemsplanet.vipaccess.http.VipHttp           post                     </Secret>
+        01:36:02.931 INFO  com.systemsplanet.vipaccess.http.VipHttp           post                   </Device>
+        01:36:02.931 INFO  com.systemsplanet.vipaccess.http.VipHttp           post                 </SecretContainer>
+        01:36:02.931 INFO  com.systemsplanet.vipaccess.http.VipHttp           post                 <UTCTimestamp>1504589756</UTCTimestamp>
+        01:36:02.931 INFO  com.systemsplanet.vipaccess.http.VipHttp           post               </GetSharedSecretResponse>
+        01:36:02.931 INFO  com.systemsplanet.vipaccess.VipAccessMain          main            response:<?xml version="1.0" encoding="UTF-8"?><GetSharedSecretResponse RequestId="1504589761172" Version="2.0" xmlns="http://www.verisign.com/2006/08/vipservice">  <Status>    <ReasonCode>0000</ReasonCode>    <StatusMessage>Success</StatusMessage>  </Status>  <SharedSecretDeliveryMethod>HTTPS</SharedSecretDeliveryMethod>  <SecretContainer Version="1.0">    <EncryptionMethod>      <PBESalt>gLxBi4UUrL0GE3ZHe2rScXLNTCk=</PBESalt>      <PBEIterationCount>50</PBEIterationCount>      <IV>DRyxEdYMhFFeFwQ/R3HHkw==</IV>    </EncryptionMethod>    <Device>      <Secret type="HOTP" Id="VSMT31979379">        <Issuer>OU = ID Protection Center, O = Symantec</Issuer>        <Usage otp="true">          <AI type="HMAC-SHA1-TRUNC-6DIGITS"/>          <TimeStep>30</TimeStep>          <Time>0</Time>          <ClockDrift>4</ClockDrift>        </Usage>        <FriendlyName>OU = ID Protection Center, O = Symantec</FriendlyName>        <Data>          <Cipher>/BMtX7pJbC06tJCxAx8Ey9Y7uIwjLIRJMFx3bB4CGnY=</Cipher>          <Digest algorithm="HMAC-SHA1">MCTCp2UbUngkOiWa9fiJaeq33ck=</Digest>        </Data>        <Expiry>2020-09-04T05:35:57.005Z</Expiry>      </Secret>    </Device>  </SecretContainer>  <UTCTimestamp>1504589756</UTCTimestamp></GetSharedSecretResponse>
+        01:36:02.946 INFO  com.systemsplanet.vipaccess.VipAccessMain          main            VipToken[status=Success,salt64=gLxBi4UUrL0GE3ZHe2rScXLNTCk=,iteration_count=50,iteration_count_int=50,iv64=DRyxEdYMhFFeFwQ/R3HHkw==,expiry=2020-09-04T05:35:57.005Z,id=VSMT31979379,cipher64=/BMtX7pJbC06tJCxAx8Ey9Y7uIwjLIRJMFx3bB4CGnY=,digest64=MCTCp2UbUngkOiWa9fiJaeq33ck=,salt={-128,-68,65,-117,-123,20,-84,-67,6,19,118,71,123,106,-46,113,114,-51,76,41},iv={13,28,-79,17,-42,12,-124,81,94,23,4,63,71,113,-57,-109},cipher={-4,19,45,95,-70,73,108,45,58,-76,-112,-79,3,31,4,-53,-42,59,-72,-116,35,44,-124,73,48,92,119,108,30,2,26,118},digest={48,36,-62,-89,101,27,82,120,36,58,37,-102,-11,-8,-119,105,-22,-73,-35,-55}]
+        01:36:02.962 INFO  com.systemsplanet.vipaccess.VipEnc                 decrypt         key:01ad9bc682a3aa93a9a3239a86d6ccd9
+        01:36:02.962 INFO  com.systemsplanet.vipaccess.VipEnc                 decrypt         iv:0d1cb111d60c84515e17043f4771c793
+        01:36:02.962 INFO  com.systemsplanet.vipaccess.VipEnc                 decrypt         cipher:fc132d5fba496c2d3ab490b1031f04cbd63bb88c232c8449305c776c1e021a76
+        01:36:03.087 INFO  com.systemsplanet.vipaccess.VipEnc                 decrypt         padded:e84c86727c38c778fa621ace5a5f2ebcf49e4b280c0c0c0c0c0c0c0c0c0c0c0c
+        01:36:03.087 INFO  com.systemsplanet.vipaccess.VipEnc                 decrypt         decrypted:e84c86727c38c778fa621ace5a5f2ebcf49e4b28
+        01:36:03.087 INFO  com.systemsplanet.vipaccess.VipAccessMain          main            BE AWARE that this new credential expires on this date: 2020-09-04T05:35:57.005Z
+        01:36:03.087 INFO  com.systemsplanet.vipaccess.VipAccessMain          main            E*Trade Id: VSMT31979379
+        01:36:03.087 INFO  com.systemsplanet.vipaccess.VipQrCode              writeQRCode     secret32:[5BGIM4T4HDDXR6TCDLHFUXZOXT2J4SZI]
+        01:36:03.103 INFO  com.systemsplanet.vipaccess.VipQrCode              writeQRCode     otpauth://totp/VIP_Access:VSMT31979379?issuer=Symantec&secret=5BGIM4T4HDDXR6TCDLHFUXZOXT2J4SZI&
+                                                                                              otpauth://totp/VIP_Access:VSMT31979379?issuer=Symantec&secret=5BGIM4T4HDDXR6TCDLHFUXZOXT2J4SZI&
+        01:36:03.103 INFO  com.systemsplanet.vipaccess.VipQrCode              writeQRCode     QR Code image file: C:\Users\MLAWRE~1\AppData\Local\Temp\qrcode5026312170994775922.png
+        01:36:03.228 INFO  com.systemsplanet.vipaccess.VipAccessMain          main            done
+        E:\$java-vipaccess>    
+    */
+    function runTests() {
+        logClear()
+        $("table.blueTable").empty();
+        log("Tests Started... " + new Date());
+        var xmlReq = [
+            "<GetSharedSecret Id=\"1504589761172\" Version=\"2.0\" xmlns=\"http://www.verisign.com/2006/08/vipservice\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\">",
+            "   <TokenModel>VSMT</TokenModel>",
+            "   <ActivationCode></ActivationCode>",
+            "   <OtpAlgorithm type=\"HMAC-SHA1-TRUNC-6DIGITS\"/>",
+            "   <SharedSecretDeliveryMethod>HTTPS</SharedSecretDeliveryMethod>",
+            "   <DeviceId>",
+            "      <Manufacturer>Apple Inc.</Manufacturer>",
+            "      <SerialNo>N0PE6R4SE30Z</SerialNo>",
+            "      <Model>MacBookPro7,1</Model>",
+            "   </DeviceId>",
+            "   <Extension extVersion=\"auth\" xsi:type=\"vip:ProvisionInfoType\" xmlns:vip=\"http://www.verisign.com/2006/08/vipservice\">",
+            "      <AppHandle>iMac010200</AppHandle>",
+            "      <ClientIDType>BOARDID</ClientIDType>",
+            "      <ClientID>Mac-6BA2E8063A76F3E8</ClientID>",
+            "      <DistChannel>Symantec</DistChannel>",
+            "      <ClientInfo>",
+            "          <os>MacBookPro8,1</os>",
+            "          <platform>iMac</platform>",
+            "      </ClientInfo>",
+            "      <ClientTimestamp>1504589761172</ClientTimestamp>",
+            "      <Data>BI3CTvBxvgdNNalfH9og50WMr6aTPw8LliBis3MpEXI=</Data>",
+            "   </Extension>",
+            "</GetSharedSecret>"        
+            ].join("\n");    
+        var xmlResp = [
+            "<?xml version=\"1.0\" encoding=\"UTF-8\"?>",
+            "<GetSharedSecretResponse RequestId=\"1504589761172\" Version=\"2.0\" xmlns=\"http://www.verisign.com/2006/08/vipservice\">",
+            "<Status>",
+            "  <ReasonCode>0000</ReasonCode>",
+            "  <StatusMessage>Success</StatusMessage>",
+            "</Status>",
+            "<SharedSecretDeliveryMethod>HTTPS</SharedSecretDeliveryMethod>",
+            "<SecretContainer Version=\"1.0\">",
+            "  <EncryptionMethod>",
+            "    <PBESalt>gLxBi4UUrL0GE3ZHe2rScXLNTCk=</PBESalt>",
+            "    <PBEIterationCount>50</PBEIterationCount>",
+            "    <IV>DRyxEdYMhFFeFwQ/R3HHkw==</IV>",
+            "  </EncryptionMethod>",
+            "  <Device>",
+            "    <Secret type=\"HOTP\" Id=\"VSMT31979379\">",
+            "      <Issuer>OU = ID Protection Center, O = Symantec</Issuer>",
+            "      <Usage otp=\"true\">",
+            "        <AI type=\"HMAC-SHA1-TRUNC-6DIGITS\"/>",
+            "        <TimeStep>30</TimeStep>",
+            "        <Time>0</Time>",
+            "        <ClockDrift>4</ClockDrift>",
+            "      </Usage>",
+            "      <FriendlyName>OU = ID Protection Center, O = Symantec</FriendlyName>",
+            "      <Data>",
+            "        <Cipher>/BMtX7pJbC06tJCxAx8Ey9Y7uIwjLIRJMFx3bB4CGnY=</Cipher>",
+            "        <Digest algorithm=\"HMAC-SHA1\">MCTCp2UbUngkOiWa9fiJaeq33ck=</Digest>",
+            "      </Data>",
+            "      <Expiry>2020-09-04T05:35:57.005Z</Expiry>",
+            "    </Secret>",
+            "  </Device>",
+            "</SecretContainer>",
+            "<UTCTimestamp>1504589756</UTCTimestamp>",
+            "</GetSharedSecretResponse>"        
+            ].join("\n");    
+        var ctx = transact(xmlReq, xmlResp);
+        logTest("<table class='blueTable'><thead><tr><th>Result</th><th>Test</th><th>Notes</th></thead><tbody></tbody></table>")
+        assertEquals("Success", ctx.token.status, "token.status")
+        assertEquals("gLxBi4UUrL0GE3ZHe2rScXLNTCk=", ctx.token.salt64, "token.salt64")
+        assertEquals("50", ctx.token.iteration_count, "token.iteration_count")
+        assertEquals("050", ctx.token.iteration_count_int, "token.iteration_count_int")
+        assertEquals("DRyxEdYMhFFeFwQ/R3HHkw==", ctx.token.iv64, "token.iv64")
+        assertEquals("2020-09-04T05:35:57.005Z", ctx.token.expiry, "token.expiry")
+        assertEquals("VSMT31979379", ctx.token.id, "token.id")
+        assertEquals("/BMtX7pJbC06tJCxAx8Ey9Y7uIwjLIRJMFx3bB4CGnY=", ctx.token.cipher64, "token.cipher64")
+        assertEquals("MCTCp2UbUngkOiWa9fiJaeq33ck=", ctx.token.digest64, "token.digest64")       
+        var salt=[128,188,65,139,133,20,172,189,6,19,118,71,123,106,210,113,114,205,76,41],
+            iv=[13,28,177,17,214,12,132,81,94,23,4,63,71,113,199,147],
+            cipher=[252,19,45,95,186,73,108,45,58,180,144,177,3,31,4,203,214,59,184,140,35,44,132,73,48,92,119,108,30,2,26,118],
+            digest=[48,36,194,167,101,27,82,120,36,58,37,154,245,248,137,105,234,183,221,201];
+        assertEqualsUArray(salt, ctx.token.salt, "token.salt");
+        assertEqualsUArray(iv, ctx.token.iv, "token.iv");
+        assertEqualsUArray(cipher, ctx.token.cipher, "token.cipher");
+        assertEqualsUArray(digest, ctx.token.digest, "token.digest");
+        assertEquals(AES_KEY_HEX, arrayToHex(AES_KEY_ARRAY), "AES_KEY_ARRAY")
+        assertEquals("0d1cb111d60c84515e17043f4771c793", arrayToHex(ctx.token.iv), "ctx.token.iv")
+        assertEquals("fc132d5fba496c2d3ab490b1031f04cbd63bb88c232c8449305c776c1e021a76", arrayToHex(ctx.token.cipher), "ctx.token.cipher")
+        assertEquals("e84c86727c38c778fa621ace5a5f2ebcf49e4b28", arrayToHex(ctx.secretArray), "ctx.secretArray")                        
+        assertEquals("5BGIM4T4HDDXR6TCDLHFUXZOXT2J4SZI", ctx.secretBase32, "ctx.secretBase32")                        
+        log("Tests Complete. " + new Date());
+    }
+
+
     $( "#showQrImageButton" ).on( "click", function() {
         var url = 'https://chart.googleapis.com/chart?chs=200x200&cht=qr&chl=200x200&chld=M|0&cht=qr&chl=';
-        url += otpauth
+        var otpauth = $('#qrUrl').text();
+        url += otpauth;
+        log("otpauth Url:["+ url + "]")
         $('#qrImg').attr('src', url);        
     });
-});
-///////////////////////////////////////////////////////////////////////////////
-
+    
+    $( "#runTests" ).on( "click", function() {
+        runTests();
+    });
+    
+    logClear();    
+    // MAIN - Call Semantech Web Service
+    var xmlReq  = getRequestXml(MODEL_MOBILE);
+    postSymantec(xmlReq, function(xmlResp, status, xhr){
+        var ctx = transact(xmlReq, xmlResp);               
+        log("success")
+    });
+}); 
 </script>
 </body>
 </html>
